@@ -54,14 +54,6 @@ where:
 
 ---
 
-## Compilation
-
-```bash
-g++ main.cpp -O2 -std=c++17 -o simple_flat_plate
-./simple_flat_plate
-```md
----
-
 ## Convergence Study
 
 A comparison was performed for different numbers of pressure-correction iterations
@@ -73,3 +65,8 @@ A comparison was performed for different numbers of pressure-correction iteratio
 - Therefore, an optimal value should balance convergence stability and total runtime.
 - All cases converge toward the same final residual level, confirming numerical consistency.
 
+## Compilation and Run
+
+```bash
+g++ main.cpp -O2 -std=c++17 -o simple_flat_plate
+./simple_flat_plate
