@@ -1,45 +1,60 @@
-# 2D Incompressible Flat-Plate Solver
+# 2D Incompressible SIMPLE Solver
 
-This is an educational C++ solver for a 2D incompressible viscous flat-plate boundary-layer case. It follows the same modular style as the earlier 2D advection solver.
+This repository contains a 2D incompressible Navier–Stokes solver written in C++ for a flat-plate boundary-layer test case. The solver is based on a pressure-correction (SIMPLE-like) approach on a structured Cartesian grid.
 
-## Physics
+The code is developed for learning and understanding the fundamentals of pressure-based CFD solvers.
 
-The solver advances the incompressible laminar Navier-Stokes equations with constant density and viscosity:
+---
 
-- continuity equation
-- x-momentum equation
-- y-momentum equation
+## Governing Equations
 
-A SIMPLE-like pressure-correction loop is used to couple pressure and velocity.
+The solver advances the incompressible laminar Navier–Stokes equations:
 
-## Boundary conditions
+- Continuity equation:
+  
+  ∇ · u = 0
 
-- inlet: `u = 10 m/s`, `v = 0`
-- bottom wall: no slip, `u = 0`, `v = 0`
-- top boundary: free-stream velocity, `u = 10 m/s`, `v = 0`
-- outlet: fixed gauge pressure, `p = 0`, with zero-gradient velocity
+- Momentum equations:
+  
+  ∂u/∂t + (u · ∇)u = - (1/ρ) ∇p + ν ∇²u
 
-## Compile
+where:
+- ρ = density  
+- ν = kinematic viscosity  
+
+---
+
+## Numerical Method
+
+- Finite-difference discretization on a structured grid
+- First-order upwind scheme for convective terms
+- Second-order central differencing for diffusion and pressure gradients
+- Explicit time stepping (pseudo-transient approach)
+- SIMPLE-like pressure correction method:
+  - Momentum predictor → u*, v*
+  - Pressure correction (Poisson equation)
+  - Velocity and pressure update with under-relaxation
+
+---
+
+## Boundary Conditions
+
+- **Inlet (left):**  
+  u = 10 m/s, v = 0  
+
+- **Wall (bottom):**  
+  No-slip condition: u = 0, v = 0  
+
+- **Top boundary:**  
+  Free-stream velocity: u = 10 m/s, v = 0  
+
+- **Outlet (right):**  
+  Fixed gauge pressure: p = 0  
+  Zero-gradient velocity  
+
+---
+
+## Compilation
 
 ```bash
 g++ main.cpp -O2 -std=c++17 -o simple_flat_plate
-```
-
-## Run
-
-```bash
-./simple_flat_plate
-```
-
-## Output
-
-The code writes Tecplot ASCII files:
-
-- `solution_initial.dat`
-- `solution_final.dat`
-- intermediate solution files every 1000 iterations
-- `residual.dat`
-
-## Note
-
-This is not yet a production-quality CFD solver. It is a first learning implementation. For a stronger finite-volume SIMPLE solver, the next step is to move to staggered or Rhie-Chow stabilized collocated arrangement.
