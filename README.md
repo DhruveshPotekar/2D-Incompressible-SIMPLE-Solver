@@ -58,3 +58,17 @@ where:
 
 ```bash
 g++ main.cpp -O2 -std=c++17 -o simple_flat_plate
+
+---
+
+## Convergence Study
+
+A comparison was performed for different numbers of pressure-correction iterations
+(100, 200, 300) per SIMPLE step.
+
+- Increasing the number of pressure iterations improves the accuracy of the pressure-correction Poisson solve.
+- This leads to smoother convergence and fewer oscillations in the continuity residual.
+- However, a higher number of pressure iterations also increases the computational cost per SIMPLE iteration.
+- Therefore, an optimal value should balance convergence stability and total runtime.
+- All cases converge toward the same final residual level, confirming numerical consistency.
+
