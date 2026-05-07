@@ -58,7 +58,8 @@ where:
 
 ```bash
 g++ main.cpp -O2 -std=c++17 -o simple_flat_plate
-
+./simple_flat_plate
+```md
 ---
 
 ## Convergence Study
